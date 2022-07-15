@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Мультифунк</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="home_page">Главная</string>
+    <string name="text_edit">Текстовый редактор</string>
+    <string name="text_edit_editing">Редактирование</string>
+
+    <string name="calculator">Калькулятор</string>
+    <string name="exit">Выход</string>
+
+    <string name="about_program">О программе</string>
+    <string name="about_author">Об авторе</string>
+    <string name="message_about_program">Программа состоит из двух частей - текстового редактора и калькулятора</string>
+    <string name="message_about_author">Я такой-то такойтович …</string>
+    <string name="message_exit">Вы действительно хотите выйти?</string>
+
+    <string name="btn_OK">OK</string>
+    <string name="btn_CANCEL">CANCEL</string>
+
+    <string name="exceptionInterface">должен реализовывать интерфейс OnFragmentInteractionListener</string>
+
+    <string name="zero">0</string>
+    <string name="equal">=</string>
+    <string name="plus">+</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="minus">-</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="multiply">*</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="divide">/</string>
+    <string name="clear">c</string>
+    <string name="error">ERROR</string>
+    <string name="OK">OK</string>
+
+    <string name="noFileInFolder">Файлов в папке нет</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

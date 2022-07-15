@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listButtonsMainScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainScreenFragment"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <Button
+        android:id="@+id/btnAboutProgram"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_margin="1dp"
+        android:text="@string/about_program"
+        android:textSize="14sp"
+        android:backgroundTint="@color/holo_blue_light"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/btnAboutAuthor"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_margin="1dp"
+        android:text="@string/about_author"
+        android:textSize="14sp"
+        android:backgroundTint="@color/holo_blue_light"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="140dp"
+        android:text="@string/exit"
+        android:textSize="14sp"
+        android:backgroundTint="@color/holo_blue_light"
+        android:textColor="@color/white"/>
+
+</LinearLayout>
