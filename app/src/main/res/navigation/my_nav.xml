@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.lesson13.ListFragment"
+        android:name="com.example.lesson13.ListFilesFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action

@@ -9,7 +9,7 @@ import com.example.lesson13.databinding.ListItemBinding
 class FileItemAdapter(
     private val context: Context,
     private val fileItemList: List<CurrentFile>,
-    private val listenerForFragment: OnFragmentSendDataListener?
+    private val listenerForFragment: OnFragmentOpenFileListener?
 ) : RecyclerView.Adapter<FileItemAdapter.FileItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileItemViewHolder {
@@ -28,14 +28,14 @@ class FileItemAdapter(
 
     class FileItemViewHolder(
         private val binding: ListItemBinding,
-        private val listenerForFragment: OnFragmentSendDataListener?
+        private val listenerForFragment: OnFragmentOpenFileListener?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(fileItem: CurrentFile) {
-            binding.name.text = fileItem.getName()
-            binding.data.text = fileItem.getData()
+            binding.name.text = fileItem.name
+            binding.data.text = fileItem.data
             binding.oneItem.setOnClickListener {
-                listenerForFragment?.onSendData(fileItem.getName())
+                listenerForFragment?.openFileByName(fileItem.name)
             }
         }
     }

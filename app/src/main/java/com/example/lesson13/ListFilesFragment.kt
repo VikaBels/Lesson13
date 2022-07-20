@@ -15,22 +15,28 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListFragment : Fragment(), OnFragmentSendDataListener {
+class ListFilesFragment : Fragment() {
     companion object {
         private const val DATA_PATTERN = "yyyy-MM-dd HH:mm:ss"
     }
-    private var listFiles = ArrayList<CurrentFile>()
+
+    private var listFiles: MutableList<CurrentFile> = mutableListOf()
 
     private lateinit var adapter: FileItemAdapter
     private var bindingList: FragmentListBinding? = null
 
-    private var fragmentSendDataListener: OnFragmentSendDataListener? = null
+    private var fragmentOpenFileListener: OnFragmentOpenFileListener? = null
+    private var fragmentRenameTitleListener: OnFragmentRenameTitleListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentSendDataListener = context as? OnFragmentSendDataListener
+        fragmentOpenFileListener = context as? OnFragmentOpenFileListener
+            ?: error("$context${resources.getString(R.string.exceptionInterface)}")
+
+        fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +61,7 @@ class ListFragment : Fragment(), OnFragmentSendDataListener {
 
     override fun onStart() {
         super.onStart()
-        fragmentSendDataListener?.renameFragmentTitle(resources.getString(R.string.text_edit))
+        fragmentRenameTitleListener?.renameFragmentTitle(resources.getString(R.string.text_edit))
     }
 
     override fun onDestroyView() {
@@ -65,7 +71,8 @@ class ListFragment : Fragment(), OnFragmentSendDataListener {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentSendDataListener = null
+        fragmentOpenFileListener = null
+        fragmentRenameTitleListener = null
     }
 
     private fun createFile() {
@@ -75,11 +82,11 @@ class ListFragment : Fragment(), OnFragmentSendDataListener {
         } catch (ex: IOException) {
             println(ex)
         }
-        fragmentSendDataListener?.onSendData(null)
+        fragmentOpenFileListener?.openFileByName(null)
     }
 
     private fun setUpAdapter() {
-        adapter = FileItemAdapter(requireContext(), listFiles, fragmentSendDataListener)
+        adapter = FileItemAdapter(requireContext(), listFiles, fragmentOpenFileListener)
 
         bindingList?.filesList?.adapter = adapter
         bindingList?.filesList?.layoutManager = LinearLayoutManager(requireContext())
@@ -102,17 +109,14 @@ class ListFragment : Fragment(), OnFragmentSendDataListener {
                     listFiles.add(
                         CurrentFile(
                             files[i].name,
-                            SimpleDateFormat(DATA_PATTERN, Locale.CANADA).format(Date(files[i].lastModified()))
+                            SimpleDateFormat(
+                                DATA_PATTERN,
+                                Locale.CANADA
+                            ).format(Date(files[i].lastModified()))
                         )
                     )
                 }
             }
         }
     }
-
-    override fun onSendData(data: String?) {}
-
-    override fun onFinishDetailFragment() {}
-
-    override fun renameFragmentTitle(title: String) {}
 }

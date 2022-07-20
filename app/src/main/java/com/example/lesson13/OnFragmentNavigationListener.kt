@@ -1,7 +1,10 @@
 package com.example.lesson13
 
-import androidx.fragment.app.Fragment
 
 interface OnFragmentNavigationListener {
-    fun onNavigate(fragment: Fragment, tag: String)
+    fun openFragmentByTag(tag: String)
+
+    fun finishDetailFragment()
+
+    fun finishAllFragmentsAndExit()
 }

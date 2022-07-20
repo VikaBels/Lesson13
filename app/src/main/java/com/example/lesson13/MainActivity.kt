@@ -7,46 +7,23 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lesson13.databinding.ActivityMainBinding
-import java.util.ArrayList
 
-class MainActivity : AppCompatActivity(), OnFragmentSendDataListener, OnFragmentNavigationListener {
-    private var listMenuItem = ArrayList<ItemMenu>()
+class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragmentNavigationListener,
+    OnFragmentRenameTitleListener, OnFragmentSendInfoDialogListener {
+    companion object {
+        const val KEY_TAG_DIALOG = "keyDialog"
+    }
 
     private lateinit var adapter: MenuItemAdapter
     private lateinit var bindingMain: ActivityMainBinding
 
-    private var fragmentSendDataListener: OnFragmentNavigationListener? = null
-
     private lateinit var drawerToggle: ActionBarDrawerToggle
-
-    private fun showFragment(
-        fragment: Fragment,
-        tag: String,
-        clearToTag: String?,
-        clearInclusive: Boolean
-    ) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-
-        if (clearToTag != null || clearInclusive) {
-            fragmentManager.popBackStack(
-                clearToTag,
-                if (clearInclusive) {
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
-                } else 0
-            )
-        }
-
-        val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment, tag)
-            .addToBackStack(tag)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +32,45 @@ class MainActivity : AppCompatActivity(), OnFragmentSendDataListener, OnFragment
         setContentView(bindingMain.root)
 
         if (savedInstanceState == null) {
-            showFragment(MainScreenFragment(), TAG_FOR_MAIN_SCREEN, null, true)
+            showFragment(TAG_FOR_MAIN_SCREEN, null, null)
         }
 
         addToolBar()
 
-        initializeFragmentListener()
-
         fillingMenu()
 
         setUpAdapter()
+    }
+
+    override fun openFileByName(data: String?) {
+        showFragment(TAG_FOR_DETAIL, TAG_FOR_MAIN_SCREEN, data)
+    }
+
+    override fun openFragmentByTag(tag: String) {
+        showFragment(tag, TAG_FOR_MAIN_SCREEN, null)
+    }
+
+    override fun finishDetailFragment() {
+        showFragment(null, TAG_FOR_MAIN_SCREEN, null)
+    }
+
+    override fun finishAllFragmentsAndExit() {
+        finish()
+    }
+
+    override fun onSendInfoOnDialog(title: String, message: String, cancel: Boolean) {
+        val fragment = CustomDialogFragment()
+
+        fragment.arguments =
+            bundleOf(
+                KEY_INFO_DIALOG to arrayListOf(
+                    title,
+                    message,
+                    cancel.toString()
+                )
+            )
+
+        fragment.show(supportFragmentManager, KEY_TAG_DIALOG)
     }
 
     private fun addToolBar() {
@@ -84,67 +90,83 @@ class MainActivity : AppCompatActivity(), OnFragmentSendDataListener, OnFragment
         drawerLayout.addDrawerListener(drawerToggle)
     }
 
-    private fun initializeFragmentListener() {
-        fragmentSendDataListener = this as? OnFragmentNavigationListener
-            ?: error("$this${resources.getString(R.string.exceptionInterface)}")
+    private fun showFragment(
+        tag: String?,
+        clearToTag: String?,
+        nameFile: String?
+    ) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        var fragment: Fragment? = null
+        val transaction = fragmentManager.beginTransaction()
+
+        if (clearToTag != null) {
+            fragmentManager.popBackStack(
+                clearToTag,
+                0
+            )
+        }
+
+        when (tag) {
+            TAG_FOR_CALCULATOR -> {
+                fragment = CalculatorScreenFragment()
+            }
+            TAG_FOR_LIST_FILES -> {
+                fragment = ListFilesFragment()
+            }
+            TAG_FOR_MAIN_SCREEN -> {
+                fragment = MainScreenFragment()
+            }
+            TAG_FOR_DETAIL -> {
+                fragment = DetailFragment()
+            }
+        }
+
+        if (!nameFile.isNullOrEmpty()) {
+            fragment?.arguments = bundleOf(KEY_TRANSFER_NAME to nameFile)
+        }
+
+        if (fragment != null) {
+            transaction.replace(R.id.container, fragment, tag)
+                .addToBackStack(tag)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit()
+        }
+
+        bindingMain.drawerLayout.closeDrawer(GravityCompat.START)
     }
 
-    private fun fillingMenu() {
+    override fun renameFragmentTitle(title: String) {
+        supportActionBar?.title = title
+    }
+
+    private fun fillingMenu(): List<ItemMenu> {
+        val listMenuItem = mutableListOf<ItemMenu>()
         listMenuItem.add(
             ItemMenu(
                 resources.getString(R.string.home_page),
-                MainScreenFragment(),
                 TAG_FOR_MAIN_SCREEN
             )
         )
         listMenuItem.add(
             ItemMenu(
                 resources.getString(R.string.text_edit),
-                ListFragment(),
                 TAG_FOR_LIST_FILES
             )
         )
         listMenuItem.add(
             ItemMenu(
                 resources.getString(R.string.calculator),
-                CalculatorScreenFragment(),
                 TAG_FOR_CALCULATOR
             )
         )
+        return listMenuItem
     }
 
     private fun setUpAdapter() {
-        adapter = MenuItemAdapter(this, listMenuItem, fragmentSendDataListener)
+        adapter = MenuItemAdapter(this, fillingMenu(), this)
 
         bindingMain.menuList.adapter = adapter
         bindingMain.menuList.layoutManager = LinearLayoutManager(this)
-    }
-
-    override fun onNavigate(fragment: Fragment, tag: String) {
-        showFragment(fragment, tag, TAG_FOR_MAIN_SCREEN, false)
-    }
-
-    override fun onSendData(data: String?) {
-        val transaction = supportFragmentManager.beginTransaction()
-        val fragment = DetailFragment()
-        fragment.arguments = bundleOf(KEY_TRANSFER_NAME to data)
-        transaction
-            .apply { replace(R.id.container, fragment, TAG_FOR_DETAIL) }
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun onFinishDetailFragment() {
-        val transaction = supportFragmentManager.beginTransaction()
-        val fragment = ListFragment()
-        transaction
-            .apply { add(R.id.container, fragment, TAG_FOR_LIST) }
-            .commit()
-        //supportFragmentManager.popBackStack()
-    }
-
-    override fun renameFragmentTitle(title: String) {
-        supportActionBar?.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

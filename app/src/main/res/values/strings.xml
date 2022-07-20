@@ -18,7 +18,7 @@
     <string name="btn_OK">OK</string>
     <string name="btn_CANCEL">CANCEL</string>
 
-    <string name="exceptionInterface">должен реализовывать интерфейс OnFragmentInteractionListener</string>
+    <string name="exceptionInterface">должен реализовывать интерфейс</string>
 
     <string name="zero">0</string>
     <string name="equal">=</string>

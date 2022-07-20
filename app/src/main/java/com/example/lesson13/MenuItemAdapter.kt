@@ -9,7 +9,7 @@ import com.example.lesson13.databinding.NameItemMenuBinding
 class MenuItemAdapter(
     private val context: Context,
     private val menuItemList: List<ItemMenu>,
-    private val listenerForFragment: OnFragmentNavigationListener?
+    private val listenerForFragment: OnFragmentNavigationListener?,
 ) : RecyclerView.Adapter<MenuItemAdapter.MenuItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder {
@@ -30,11 +30,10 @@ class MenuItemAdapter(
         private val binding: NameItemMenuBinding,
         private val listenerForFragment: OnFragmentNavigationListener?
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(menuItem: ItemMenu) {
-            binding.name.text = menuItem.getName()
+            binding.name.text = menuItem.name
             binding.nameItemMenu.setOnClickListener {
-                listenerForFragment?.onNavigate(menuItem.getFragment(), menuItem.getTag())
+                listenerForFragment?.openFragmentByTag(menuItem.tag)
             }
         }
     }

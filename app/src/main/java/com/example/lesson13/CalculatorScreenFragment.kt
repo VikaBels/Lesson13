@@ -53,11 +53,11 @@ class CalculatorScreenFragment : Fragment() {
 
     private var allButton: View.OnClickListener? = null
 
-    private var fragmentSendDataListener: OnFragmentSendDataListener? = null
+    private var fragmentRenameTitleListener: OnFragmentRenameTitleListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentSendDataListener = context as? OnFragmentSendDataListener
+        fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
 
@@ -83,16 +83,12 @@ class CalculatorScreenFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        fragmentSendDataListener?.renameFragmentTitle(resources.getString(R.string.calculator))
+        fragmentRenameTitleListener?.renameFragmentTitle(resources.getString(R.string.calculator))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         bindingCalculator = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
 
         btnZero = null
         btnOne = null
@@ -115,7 +111,7 @@ class CalculatorScreenFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentSendDataListener = null
+        fragmentRenameTitleListener = null
     }
 
     private fun findViews() {
@@ -162,26 +158,33 @@ class CalculatorScreenFragment : Fragment() {
         txtViewResult?.text = number
     }
 
-    private fun parseStringBuilderToInt(number: StringBuilder): Int {
-        return number.toString().toInt()
+    private fun parseStringBuilderToInt(numberString: StringBuilder): Int? {
+        var number: Int? = null
+        try {
+            number = numberString.toString().toInt()
+        } catch (e: Exception) {
+            println(e)
+        }
+        return number
     }
 
     private fun workWithOperand(selectedButton: Button) {
-        if (selectedButton.text == OPERAND_EQUAL && operand == OPERAND_EQUAL) {
+        if (selectedButton.text.equals(OPERAND_EQUAL) && operand.equals(OPERAND_EQUAL)) {
             num1 = helperSum
             operand = helpOperand
         }
 
-        val selectedNumber: Int = parseStringBuilderToInt(number)
-        if (num1 == 0) {
+        val selectedNumber: Int? = parseStringBuilderToInt(number)
+
+        if (num1 == 0 && selectedNumber != null) {
             num1 = selectedNumber
             operand = selectedButton.text.toString()
         } else if (num2 == 0) {
-            try {
+            if (selectedNumber != null) {
                 num2 = selectedNumber
                 helpInt = num2
                 helpOperand = operand
-            } catch (e: Exception) {
+            } else {
                 if (helpInt == 0) {
                     helpInt = num1
                     helpOperand = operand
@@ -202,6 +205,7 @@ class CalculatorScreenFragment : Fragment() {
             operand = selectedButton.text.toString()
             num2 = 0
         }
+
         if (selectedButton.text.toString() == OPERAND_EQUAL) {
             txtViewResult?.text =
                 if (error) resources.getString(R.string.error) else num1.toString()

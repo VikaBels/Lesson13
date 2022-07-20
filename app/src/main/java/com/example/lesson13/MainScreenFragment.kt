@@ -8,18 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.lesson13.databinding.FragmentMainScreenBinding
 
-class MainScreenFragment : Fragment(), OnFragmentSendDataListener {
-    companion object {
-        const val KEY_TAG_DIALOG = "custom"
-    }
-
+class MainScreenFragment : Fragment() {
     private var bindingMainScreen: FragmentMainScreenBinding? = null
 
-    private var fragmentSendDataListener: OnFragmentSendDataListener? = null
+    private var fragmentRenameTitleListener: OnFragmentRenameTitleListener? = null
+    private var fragmentSendInfoDialogListener: OnFragmentSendInfoDialogListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentSendDataListener = context as? OnFragmentSendDataListener
+        fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
+            ?: error("$context${resources.getString(R.string.exceptionInterface)}")
+
+        fragmentSendInfoDialogListener = context as? OnFragmentSendInfoDialogListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
 
@@ -40,7 +40,7 @@ class MainScreenFragment : Fragment(), OnFragmentSendDataListener {
 
     override fun onStart() {
         super.onStart()
-        fragmentSendDataListener?.renameFragmentTitle(resources.getString(R.string.app_name))
+        fragmentRenameTitleListener?.renameFragmentTitle(resources.getString(R.string.app_name))
     }
 
     override fun onDestroyView() {
@@ -50,35 +50,31 @@ class MainScreenFragment : Fragment(), OnFragmentSendDataListener {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentSendDataListener = null
+        fragmentRenameTitleListener = null
+        fragmentSendInfoDialogListener = null
     }
 
     private fun setOnClickListenerButtons() {
         bindingMainScreen?.btnAboutProgram?.setOnClickListener {
-            showDialog(
+            sendInfoOnDialog(
                 resources.getString(R.string.about_program),
                 resources.getString(R.string.message_about_program),
                 false
             )
         }
         bindingMainScreen?.btnAboutAuthor?.setOnClickListener {
-            showDialog(
+            sendInfoOnDialog(
                 resources.getString(R.string.about_author),
                 resources.getString(R.string.message_about_author),
                 false
             )
         }
         bindingMainScreen?.btnExit?.setOnClickListener {
-            showDialog(TXT_EMPTY, resources.getString(R.string.message_exit), true)
+            sendInfoOnDialog(TXT_EMPTY, resources.getString(R.string.message_exit), true)
         }
     }
 
-    private fun showDialog(title: String, message: String, cancel: Boolean) {
-        val dialog = CustomDialogFragment(title, message, cancel)
-        dialog.show(parentFragmentManager, KEY_TAG_DIALOG)
+    private fun sendInfoOnDialog(title: String, message: String, cancel: Boolean) {
+        fragmentSendInfoDialogListener?.onSendInfoOnDialog(title, message, cancel)
     }
-
-    override fun onSendData(data: String?) {}
-    override fun onFinishDetailFragment() {}
-    override fun renameFragmentTitle(title: String) {}
 }
