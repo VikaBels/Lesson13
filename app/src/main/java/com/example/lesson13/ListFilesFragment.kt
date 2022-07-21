@@ -22,7 +22,6 @@ class ListFilesFragment : Fragment() {
 
     private var listFiles: MutableList<CurrentFile> = mutableListOf()
 
-    private lateinit var adapter: FileItemAdapter
     private var bindingList: FragmentListBinding? = null
 
     private var fragmentOpenFileListener: OnFragmentOpenFileListener? = null
@@ -36,7 +35,6 @@ class ListFilesFragment : Fragment() {
         fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +84,7 @@ class ListFilesFragment : Fragment() {
     }
 
     private fun setUpAdapter() {
-        adapter = FileItemAdapter(requireContext(), listFiles, fragmentOpenFileListener)
+        val adapter = FileItemAdapter(requireContext(), listFiles, fragmentOpenFileListener)
 
         bindingList?.filesList?.adapter = adapter
         bindingList?.filesList?.layoutManager = LinearLayoutManager(requireContext())

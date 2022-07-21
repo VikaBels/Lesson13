@@ -19,25 +19,6 @@ class CalculatorScreenFragment : Fragment() {
         private const val OPERAND_DIVIDE: String = "/"
     }
 
-    private var btnZero: Button? = null
-    private var btnOne: Button? = null
-    private var btnTwo: Button? = null
-    private var btnThree: Button? = null
-    private var btnFour: Button? = null
-    private var btnFive: Button? = null
-    private var btnSix: Button? = null
-    private var btnSeven: Button? = null
-    private var btnEight: Button? = null
-    private var btnNine: Button? = null
-    private var btnPlus: Button? = null
-    private var btnMinus: Button? = null
-    private var btnDivide: Button? = null
-    private var btnMultiply: Button? = null
-    private var btnEqual: Button? = null
-    private var btnClear: Button? = null
-
-    private var txtViewResult: TextView? = null
-
     private val number = StringBuilder()
 
     private var num1 = 0
@@ -74,8 +55,6 @@ class CalculatorScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        findViews()
-
         onClickProcessing(view)
 
         setOnClickListener(allButton)
@@ -89,49 +68,11 @@ class CalculatorScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         bindingCalculator = null
-
-        btnZero = null
-        btnOne = null
-        btnTwo = null
-        btnThree = null
-        btnFour = null
-        btnFive = null
-        btnSix = null
-        btnSeven = null
-        btnEight = null
-        btnNine = null
-        btnPlus = null
-        btnMinus = null
-        btnDivide = null
-        btnMultiply = null
-        btnEqual = null
-        btnClear = null
-        txtViewResult = null
     }
 
     override fun onDetach() {
         super.onDetach()
         fragmentRenameTitleListener = null
-    }
-
-    private fun findViews() {
-        btnZero = bindingCalculator?.btnZero
-        btnOne = bindingCalculator?.btnOne
-        btnTwo = bindingCalculator?.btnTwo
-        btnThree = bindingCalculator?.btnThree
-        btnFour = bindingCalculator?.btnFour
-        btnFive = bindingCalculator?.btnFive
-        btnSix = bindingCalculator?.btnSix
-        btnSeven = bindingCalculator?.btnSeven
-        btnEight = bindingCalculator?.btnEight
-        btnNine = bindingCalculator?.btnNine
-        btnPlus = bindingCalculator?.btnPlus
-        btnMinus = bindingCalculator?.btnMinus
-        btnDivide = bindingCalculator?.btnDivide
-        btnMultiply = bindingCalculator?.btnMultiply
-        btnEqual = bindingCalculator?.btnEqual
-        btnClear = bindingCalculator?.btnClear
-        txtViewResult = bindingCalculator?.txtResult
     }
 
     private fun onClickProcessing(view: View) {
@@ -143,7 +84,7 @@ class CalculatorScreenFragment : Fragment() {
                 R.id.btnPlus, R.id.btnMinus,
                 R.id.btnDivide, R.id.btnMultiply -> workWithOperand(view.findViewById(v.id))
                 R.id.btnClear -> {
-                    txtViewResult?.text = resources.getString(R.string.zero)
+                    bindingCalculator?.txtResult?.text = resources.getString(R.string.zero)
                     number.setLength(0)
                     clearVariables()
                 }
@@ -155,7 +96,7 @@ class CalculatorScreenFragment : Fragment() {
 
     private fun clickOnNumberBtn(selectedButton: Button) {
         number.append(selectedButton.text.toString().trim { it <= ' ' })
-        txtViewResult?.text = number
+        bindingCalculator?.txtResult?.text = number
     }
 
     private fun parseStringBuilderToInt(numberString: StringBuilder): Int? {
@@ -207,7 +148,7 @@ class CalculatorScreenFragment : Fragment() {
         }
 
         if (selectedButton.text.toString() == OPERAND_EQUAL) {
-            txtViewResult?.text =
+            bindingCalculator?.txtResult?.text =
                 if (error) resources.getString(R.string.error) else num1.toString()
             number.setLength(0)
             helperSum = num1
@@ -225,21 +166,21 @@ class CalculatorScreenFragment : Fragment() {
     }
 
     private fun setOnClickListener(allButton: View.OnClickListener?) {
-        btnZero?.setOnClickListener(allButton)
-        btnOne?.setOnClickListener(allButton)
-        btnTwo?.setOnClickListener(allButton)
-        btnThree?.setOnClickListener(allButton)
-        btnFour?.setOnClickListener(allButton)
-        btnFive?.setOnClickListener(allButton)
-        btnSix?.setOnClickListener(allButton)
-        btnSeven?.setOnClickListener(allButton)
-        btnEight?.setOnClickListener(allButton)
-        btnNine?.setOnClickListener(allButton)
-        btnPlus?.setOnClickListener(allButton)
-        btnMinus?.setOnClickListener(allButton)
-        btnDivide?.setOnClickListener(allButton)
-        btnMultiply?.setOnClickListener(allButton)
-        btnEqual?.setOnClickListener(allButton)
-        btnClear?.setOnClickListener(allButton)
+        bindingCalculator?.btnZero?.setOnClickListener(allButton)
+        bindingCalculator?.btnOne?.setOnClickListener(allButton)
+        bindingCalculator?.btnTwo?.setOnClickListener(allButton)
+        bindingCalculator?.btnThree?.setOnClickListener(allButton)
+        bindingCalculator?.btnFour?.setOnClickListener(allButton)
+        bindingCalculator?.btnFive?.setOnClickListener(allButton)
+        bindingCalculator?.btnSix?.setOnClickListener(allButton)
+        bindingCalculator?.btnSeven?.setOnClickListener(allButton)
+        bindingCalculator?.btnEight?.setOnClickListener(allButton)
+        bindingCalculator?.btnNine?.setOnClickListener(allButton)
+        bindingCalculator?.btnPlus?.setOnClickListener(allButton)
+        bindingCalculator?.btnMinus?.setOnClickListener(allButton)
+        bindingCalculator?.btnDivide?.setOnClickListener(allButton)
+        bindingCalculator?.btnMultiply?.setOnClickListener(allButton)
+        bindingCalculator?.btnEqual?.setOnClickListener(allButton)
+        bindingCalculator?.btnClear?.setOnClickListener(allButton)
     }
 }

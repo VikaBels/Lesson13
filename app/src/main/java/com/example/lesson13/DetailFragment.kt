@@ -21,14 +21,14 @@ class DetailFragment : Fragment() {
     private var bindingDetail: FragmentDetailBinding? = null
 
     private var fragmentRenameTitleListener: OnFragmentRenameTitleListener? = null
-    private var fragmentNavigationListener: OnFragmentNavigationListener? = null
+    private var fragmentFinishListener: OnFragmentFinishListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
 
-        fragmentNavigationListener = context as? OnFragmentNavigationListener
+        fragmentFinishListener = context as? OnFragmentFinishListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
 
@@ -49,7 +49,7 @@ class DetailFragment : Fragment() {
         bindingDetail?.btnSave?.setOnClickListener {
             saveText()
 
-            fragmentNavigationListener?.finishDetailFragment()
+            fragmentFinishListener?.finishDetailFragment()
         }
     }
 
@@ -66,7 +66,7 @@ class DetailFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         fragmentRenameTitleListener = null
-        fragmentNavigationListener = null
+        fragmentFinishListener = null
     }
 
     private fun checkingNameForUniqueness(currentFileName: String): String {
@@ -106,34 +106,31 @@ class DetailFragment : Fragment() {
         var renameFile = currentFile
         val newNameFile: String
 
-        val inputText = bindingDetail?.editTextFile?.text.toString()
         var outputText: String? = null
-        var allFileText = bindingDetail?.editTextFile?.text.toString()
-        var firstLine = allFileText.split(SLASH_N)[0]
+        var textFile = bindingDetail?.editTextFile?.text.toString()
+        var firstLine = textFile.split(SLASH_N)[0]
 
         if (firstLine == TXT_EMPTY) {
             firstLine = DEFAULT_NAME_FILE
-            outputText = firstLine + inputText
+            outputText = firstLine + textFile
         }
 
         if (nameFile != firstLine || nameFile == DEFAULT_NAME_FILE) {
             newNameFile = checkingNameForUniqueness(firstLine)
             renameFile = File("${requireContext().filesDir}$KEY_FOLDER_NAME/$newNameFile")
             try {
-                allFileText =
-                    newNameFile + SLASH_N + inputText.split(SLASH_N)[1]
+                textFile =
+                    newNameFile + SLASH_N + textFile.split(SLASH_N)[1]
             } catch (e: Exception) {
-                allFileText = newNameFile
+                textFile = newNameFile
             }
-        } else {
-            allFileText = inputText
         }
 
         bindingDetail?.editTextFile?.setText(outputText)
 
         try {
             FileOutputStream(currentFile).use { oStream ->
-                oStream.write(allFileText.toByteArray())
+                oStream.write(textFile.toByteArray())
 
                 currentFile.renameTo(renameFile)
             }

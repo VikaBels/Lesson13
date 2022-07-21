@@ -14,14 +14,18 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lesson13.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragmentNavigationListener,
-    OnFragmentRenameTitleListener, OnFragmentSendInfoDialogListener {
+class MainActivity : AppCompatActivity(),
+    OnFragmentOpenFileListener,
+    OnFragmentNavigationListener,
+    OnFragmentRenameTitleListener,
+    CustomDialogConfigurationListener,
+    OnFragmentFinishListener {
+
     companion object {
         const val KEY_TAG_DIALOG = "keyDialog"
     }
 
-    private lateinit var adapter: MenuItemAdapter
-    private lateinit var bindingMain: ActivityMainBinding
+    private var bindingMain: ActivityMainBinding? = null
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
         super.onCreate(savedInstanceState)
 
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(bindingMain.root)
+        setContentView(bindingMain?.root)
 
         if (savedInstanceState == null) {
             showFragment(TAG_FOR_MAIN_SCREEN, null, null)
@@ -40,6 +44,11 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
         fillingMenu()
 
         setUpAdapter()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bindingMain = null
     }
 
     override fun openFileByName(data: String?) {
@@ -54,11 +63,11 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
         showFragment(null, TAG_FOR_MAIN_SCREEN, null)
     }
 
-    override fun finishAllFragmentsAndExit() {
+    override fun finishProgram() {
         finish()
     }
 
-    override fun onSendInfoOnDialog(title: String, message: String, cancel: Boolean) {
+    override fun onNewConfiguration(title: String, message: String, cancel: Boolean) {
         val fragment = CustomDialogFragment()
 
         fragment.arguments =
@@ -70,12 +79,13 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
                 )
             )
 
+        fragment.isCancelable = false
         fragment.show(supportFragmentManager, KEY_TAG_DIALOG)
     }
 
     private fun addToolBar() {
-        val drawerLayout = bindingMain.drawerLayout
-        val toolBar = bindingMain.toolBar
+        val drawerLayout = bindingMain?.drawerLayout
+        val toolBar = bindingMain?.toolBar
 
         setSupportActionBar(toolBar)
 
@@ -87,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
             R.string.close
         )
 
-        drawerLayout.addDrawerListener(drawerToggle)
+        drawerLayout?.addDrawerListener(drawerToggle)
     }
 
     private fun showFragment(
@@ -132,7 +142,7 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
                 .commit()
         }
 
-        bindingMain.drawerLayout.closeDrawer(GravityCompat.START)
+        bindingMain?.drawerLayout?.closeDrawer(GravityCompat.START)
     }
 
     override fun renameFragmentTitle(title: String) {
@@ -163,10 +173,10 @@ class MainActivity : AppCompatActivity(), OnFragmentOpenFileListener, OnFragment
     }
 
     private fun setUpAdapter() {
-        adapter = MenuItemAdapter(this, fillingMenu(), this)
+        val adapter = MenuItemAdapter(this, fillingMenu(), this)
 
-        bindingMain.menuList.adapter = adapter
-        bindingMain.menuList.layoutManager = LinearLayoutManager(this)
+        bindingMain?.menuList?.adapter = adapter
+        bindingMain?.menuList?.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

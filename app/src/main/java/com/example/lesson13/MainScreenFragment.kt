@@ -12,14 +12,14 @@ class MainScreenFragment : Fragment() {
     private var bindingMainScreen: FragmentMainScreenBinding? = null
 
     private var fragmentRenameTitleListener: OnFragmentRenameTitleListener? = null
-    private var fragmentSendInfoDialogListener: OnFragmentSendInfoDialogListener? = null
+    private var fragmentSendInfoDialogListener: CustomDialogConfigurationListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentRenameTitleListener = context as? OnFragmentRenameTitleListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
 
-        fragmentSendInfoDialogListener = context as? OnFragmentSendInfoDialogListener
+        fragmentSendInfoDialogListener = context as? CustomDialogConfigurationListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
 
@@ -75,6 +75,6 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun sendInfoOnDialog(title: String, message: String, cancel: Boolean) {
-        fragmentSendInfoDialogListener?.onSendInfoOnDialog(title, message, cancel)
+        fragmentSendInfoDialogListener?.onNewConfiguration(title, message, cancel)
     }
 }

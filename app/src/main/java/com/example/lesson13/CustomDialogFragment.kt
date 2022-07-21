@@ -6,35 +6,35 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
-class CustomDialogFragment() : DialogFragment() {
+class CustomDialogFragment : DialogFragment() {
     private var title: String = ""
     private var message: String = ""
-    private var cancelOrNot: Boolean = false
+    private var canCancel: Boolean = false
 
-    private var fragmentNavigationListener: OnFragmentNavigationListener? = null
+    private var fragmentFinishListener: OnFragmentFinishListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentNavigationListener = context as? OnFragmentNavigationListener
+        fragmentFinishListener = context as? OnFragmentFinishListener
             ?: error("$context${resources.getString(R.string.exceptionInterface)}")
     }
 
     private fun setInfoAboutDialog() {
-        val g = arguments?.getStringArrayList(KEY_INFO_DIALOG)
-        title = g?.get(0) ?: TXT_EMPTY
-        message = g?.get(1) ?: TXT_EMPTY
-        cancelOrNot = g?.get(2).toBoolean()
+        val arrayInfoDialog = arguments?.getStringArrayList(KEY_INFO_DIALOG)
+        title = arrayInfoDialog?.get(0) ?: TXT_EMPTY
+        message = arrayInfoDialog?.get(1) ?: TXT_EMPTY
+        canCancel = arrayInfoDialog?.get(2).toBoolean()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         setInfoAboutDialog()
 
         val builder = AlertDialog.Builder(activity)
-        return if (cancelOrNot) {
+        return if (canCancel) {
             builder
                 .setMessage(message)
                 .setPositiveButton(resources.getString(R.string.btn_OK)) { _, _ ->
-                    fragmentNavigationListener?.finishAllFragmentsAndExit()
+                    fragmentFinishListener?.finishProgram()
                 }
                 .setNegativeButton(resources.getString(R.string.btn_CANCEL), null)
                 .create()
@@ -49,6 +49,6 @@ class CustomDialogFragment() : DialogFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentNavigationListener = null
+        fragmentFinishListener = null
     }
 }
