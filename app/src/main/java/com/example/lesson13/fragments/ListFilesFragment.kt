@@ -1,4 +1,4 @@
-package com.example.lesson13
+package com.example.lesson13.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -9,7 +9,14 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lesson13.DEFAULT_NAME_FILE
+import com.example.lesson13.adapters.FileItemAdapter
+import com.example.lesson13.KEY_FOLDER_NAME
+import com.example.lesson13.R
 import com.example.lesson13.databinding.FragmentListBinding
+import com.example.lesson13.interfaces.OnFragmentOpenFileListener
+import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
+import com.example.lesson13.models.CurrentFile
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat

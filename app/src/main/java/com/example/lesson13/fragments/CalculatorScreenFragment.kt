@@ -1,4 +1,4 @@
-package com.example.lesson13
+package com.example.lesson13.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+import com.example.lesson13.R
+import com.example.lesson13.TXT_EMPTY
 import com.example.lesson13.databinding.FragmentCalculatorScreenBinding
+import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
 
 class CalculatorScreenFragment : Fragment() {
     companion object {

@@ -1,4 +1,4 @@
-package com.example.lesson13
+package com.example.lesson13.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.lesson13.R
+import com.example.lesson13.TXT_EMPTY
 import com.example.lesson13.databinding.FragmentMainScreenBinding
+import com.example.lesson13.interfaces.CustomDialogConfigurationListener
+import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
 
 class MainScreenFragment : Fragment() {
     private var bindingMainScreen: FragmentMainScreenBinding? = null

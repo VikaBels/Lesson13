@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.lesson13.MainScreenFragment"
+        android:name="com.example.lesson13.fragments.MainScreenFragment"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/calculatorScreenFragment"
-        android:name="com.example.lesson13.CalculatorScreenFragment"
+        android:name="com.example.lesson13.fragments.CalculatorScreenFragment"
         android:label="fragment_calculator_screen"
         tools:layout="@layout/fragment_calculator_screen" >
         <action
@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.lesson13.ListFilesFragment"
+        android:name="com.example.lesson13.fragments.ListFilesFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action

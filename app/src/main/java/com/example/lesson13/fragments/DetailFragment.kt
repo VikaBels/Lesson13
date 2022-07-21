@@ -1,4 +1,4 @@
-package com.example.lesson13
+package com.example.lesson13.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.lesson13.*
 import com.example.lesson13.databinding.FragmentDetailBinding
+import com.example.lesson13.interfaces.OnFragmentFinishListener
+import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException

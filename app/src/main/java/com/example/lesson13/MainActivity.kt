@@ -12,7 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lesson13.adapters.MenuItemAdapter
 import com.example.lesson13.databinding.ActivityMainBinding
+import com.example.lesson13.fragments.*
+import com.example.lesson13.interfaces.*
+import com.example.lesson13.models.ItemMenu
 
 class MainActivity : AppCompatActivity(),
     OnFragmentOpenFileListener,

@@ -1,10 +1,14 @@
-package com.example.lesson13
+package com.example.lesson13.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.example.lesson13.KEY_INFO_DIALOG
+import com.example.lesson13.R
+import com.example.lesson13.TXT_EMPTY
+import com.example.lesson13.interfaces.OnFragmentFinishListener
 
 class CustomDialogFragment : DialogFragment() {
     private var title: String = ""

@@ -1,4 +1,4 @@
-package com.example.lesson13
+package com.example.lesson13.interfaces
 
 interface CustomDialogConfigurationListener {
 
