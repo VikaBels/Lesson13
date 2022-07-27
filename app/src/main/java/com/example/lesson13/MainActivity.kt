@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(),
         showFragment(null, TAG_FOR_MAIN_SCREEN, null)
     }
 
-    override fun finishProgram() {
+    override fun finishApp() {
         finish()
     }
 

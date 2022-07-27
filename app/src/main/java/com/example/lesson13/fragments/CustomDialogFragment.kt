@@ -38,7 +38,7 @@ class CustomDialogFragment : DialogFragment() {
             builder
                 .setMessage(message)
                 .setPositiveButton(resources.getString(R.string.btn_OK)) { _, _ ->
-                    fragmentFinishListener?.finishProgram()
+                    fragmentFinishListener?.finishApp()
                 }
                 .setNegativeButton(resources.getString(R.string.btn_CANCEL), null)
                 .create()

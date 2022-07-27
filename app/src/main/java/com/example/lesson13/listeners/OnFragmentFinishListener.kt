@@ -4,5 +4,5 @@ interface OnFragmentFinishListener {
 
     fun finishDetailFragment()
 
-    fun finishProgram()
+    fun finishApp()
 }
