@@ -1,4 +1,4 @@
-package com.example.lesson13.interfaces
+package com.example.lesson13.listeners
 
 interface OnFragmentRenameTitleListener {
 

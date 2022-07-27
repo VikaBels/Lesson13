@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson13.databinding.NameItemMenuBinding
-import com.example.lesson13.interfaces.OnFragmentNavigationListener
+import com.example.lesson13.listeners.OnFragmentNavigationListener
 import com.example.lesson13.models.ItemMenu
 
 class MenuItemAdapter(

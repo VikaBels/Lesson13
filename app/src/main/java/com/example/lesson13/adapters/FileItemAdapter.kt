@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson13.databinding.ListItemBinding
-import com.example.lesson13.interfaces.OnFragmentOpenFileListener
+import com.example.lesson13.listeners.OnFragmentOpenFileListener
 import com.example.lesson13.models.CurrentFile
 
 class FileItemAdapter(

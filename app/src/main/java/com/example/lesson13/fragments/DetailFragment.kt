@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.lesson13.*
 import com.example.lesson13.databinding.FragmentDetailBinding
-import com.example.lesson13.interfaces.OnFragmentFinishListener
-import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
+import com.example.lesson13.listeners.OnFragmentFinishListener
+import com.example.lesson13.listeners.OnFragmentRenameTitleListener
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -158,5 +158,4 @@ class DetailFragment : Fragment() {
             fnfe.printStackTrace()
         }
     }
-
 }

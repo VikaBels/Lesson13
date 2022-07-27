@@ -10,15 +10,15 @@ import android.widget.Button
 import com.example.lesson13.R
 import com.example.lesson13.TXT_EMPTY
 import com.example.lesson13.databinding.FragmentCalculatorScreenBinding
-import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
+import com.example.lesson13.listeners.OnFragmentRenameTitleListener
 
 class CalculatorScreenFragment : Fragment() {
-    companion object {
-        private const val OPERAND_EQUAL: String = "="
-        private const val OPERAND_PLUS: String = "+"
-        private const val OPERAND_MINUS: String = "-"
-        private const val OPERAND_MULTIPLY: String = "*"
-        private const val OPERAND_DIVIDE: String = "/"
+    enum class Operation(val text: CharSequence) {
+        EQUAL("="),
+        PLUS("+"),
+        MINUS("-"),
+        MULTIPLY("*"),
+        DIVIDE("/")
     }
 
     private val number = StringBuilder()
@@ -112,7 +112,7 @@ class CalculatorScreenFragment : Fragment() {
     }
 
     private fun workWithOperand(selectedButton: Button) {
-        if (selectedButton.text.equals(OPERAND_EQUAL) && operand.equals(OPERAND_EQUAL)) {
+        if (selectedButton.text.equals(Operation.EQUAL.text) && operand == Operation.EQUAL.text) {
             num1 = helperSum
             operand = helpOperand
         }
@@ -135,21 +135,21 @@ class CalculatorScreenFragment : Fragment() {
                 num2 = helpInt
             }
             when (operand) {
-                OPERAND_PLUS -> num1 += num2
-                OPERAND_MINUS -> num1 -= num2
-                OPERAND_DIVIDE ->
+                Operation.PLUS.text -> num1 += num2
+                Operation.MINUS.text -> num1 -= num2
+                Operation.DIVIDE.text ->
                     if (num2 == 0) {
                         error = true
                     } else {
                         num1 /= num2
                     }
-                OPERAND_MULTIPLY -> num1 *= num2
+                Operation.MULTIPLY.text -> num1 *= num2
             }
             operand = selectedButton.text.toString()
             num2 = 0
         }
 
-        if (selectedButton.text.toString() == OPERAND_EQUAL) {
+        if (selectedButton.text.toString() == Operation.EQUAL.text) {
             bindingCalculator?.txtResult?.text =
                 if (error) resources.getString(R.string.error) else num1.toString()
             number.setLength(0)

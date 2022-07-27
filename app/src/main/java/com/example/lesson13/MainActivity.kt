@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lesson13.adapters.MenuItemAdapter
 import com.example.lesson13.databinding.ActivityMainBinding
 import com.example.lesson13.fragments.*
-import com.example.lesson13.interfaces.*
+import com.example.lesson13.listeners.*
 import com.example.lesson13.models.ItemMenu
 
 class MainActivity : AppCompatActivity(),
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(),
         finish()
     }
 
-    override fun onNewConfiguration(title: String, message: String, cancel: Boolean) {
+    override fun showDialog(title: String, message: String, cancel: Boolean) {
         val fragment = CustomDialogFragment()
 
         fragment.arguments =

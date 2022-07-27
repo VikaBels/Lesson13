@@ -14,8 +14,8 @@ import com.example.lesson13.adapters.FileItemAdapter
 import com.example.lesson13.KEY_FOLDER_NAME
 import com.example.lesson13.R
 import com.example.lesson13.databinding.FragmentListBinding
-import com.example.lesson13.interfaces.OnFragmentOpenFileListener
-import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
+import com.example.lesson13.listeners.OnFragmentOpenFileListener
+import com.example.lesson13.listeners.OnFragmentRenameTitleListener
 import com.example.lesson13.models.CurrentFile
 import java.io.File
 import java.io.IOException
@@ -27,7 +27,7 @@ class ListFilesFragment : Fragment() {
         private const val DATA_PATTERN = "yyyy-MM-dd HH:mm:ss"
     }
 
-    private var listFiles: MutableList<CurrentFile> = mutableListOf()
+    private val listFiles: MutableList<CurrentFile> = mutableListOf()
 
     private var bindingList: FragmentListBinding? = null
 

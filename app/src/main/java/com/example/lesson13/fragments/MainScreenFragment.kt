@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import com.example.lesson13.R
 import com.example.lesson13.TXT_EMPTY
 import com.example.lesson13.databinding.FragmentMainScreenBinding
-import com.example.lesson13.interfaces.CustomDialogConfigurationListener
-import com.example.lesson13.interfaces.OnFragmentRenameTitleListener
+import com.example.lesson13.listeners.CustomDialogConfigurationListener
+import com.example.lesson13.listeners.OnFragmentRenameTitleListener
 
 class MainScreenFragment : Fragment() {
     private var bindingMainScreen: FragmentMainScreenBinding? = null
@@ -79,6 +79,6 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun sendInfoOnDialog(title: String, message: String, cancel: Boolean) {
-        fragmentSendInfoDialogListener?.onNewConfiguration(title, message, cancel)
+        fragmentSendInfoDialogListener?.showDialog(title, message, cancel)
     }
 }
